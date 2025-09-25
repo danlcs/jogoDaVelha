@@ -30,6 +30,7 @@ void Tabuleiro::jogar() {
 	char player2 = 'O';
 
 	int x, y;
+	int turnos = 0;
 
 	char jogadorAtual = 'X';
 	bool pronto = false;
@@ -44,6 +45,15 @@ void Tabuleiro::jogar() {
 			cout << "Esse lugar ja esta ocupado, por favor, tente novamente." << endl;
 		}
 		else {
+			turnos++;
+			if (checkVitoria()) {
+				cout << "O jogo acabou! O jogador " << jogadorAtual << " VENCEU!" << endl;
+				pronto = true;
+			}
+			else if (turnos == 9) {
+				cout << "O jogo empatou! Ninguem venceu!" << endl;
+				pronto = true;
+			}
 			if (jogadorAtual == player1) {
 				jogadorAtual = player2;
 			}
@@ -105,5 +115,25 @@ bool Tabuleiro::colocarJogada(int x, int y, char jogadorAtual) {
 }
 
 bool Tabuleiro::checkVitoria() {
+	for (int i = 0; i < 3; i++) {
+		if (tab[i][0] != ' ' && tab[i][0] == tab[i][1] && tab[i][1] == tab[i][2]) {
+			return true;
+		}
+	}
 
+	for (int i = 0; i < 3; i++) {
+		if (tab[0][i] != ' ' && tab[0][i] == tab[1][i] && tab[1][i] == tab[2][i]) {
+			return true;
+		}
+	}
+
+	if (tab[0][0] != ' ' && tab[0][0] == tab[1][1] && tab[1][1] == tab[2][2]) {
+		return true;
+	}
+
+	if (tab[0][2] != ' ' && tab[0][2] == tab[1][1] && tab[1][1] == tab[2][0]) {
+		return true;
+	}
+
+	return false;
 }
